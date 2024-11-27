@@ -78,15 +78,15 @@ if uploaded_file is not None:
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-    # Create a Pydeck layer for the map
-layer = pdk.Layer(
-    "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
-    joined_gdf,
-    get_position=["LONGITUDE", "LATITUDE"],
-    get_radius=100,  # Adjust radius based on your data
-    get_color=[255, 0, 0, 140],  # Red with transparency
-    pickable=True,
-)
+        # Create a Pydeck layer for the map
+    layer = pdk.Layer(
+        "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
+        joined_gdf,
+        get_position=["LONGITUDE", "LATITUDE"],
+        get_radius=100,  # Adjust radius based on your data
+        get_color=[255, 0, 0, 140],  # Red with transparency
+        pickable=True,
+    )
     # Set the initial view state of the map
     view_state = pdk.ViewState(
         latitude=joined_gdf["LATITUDE"].mean(),
