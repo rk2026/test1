@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import numpy as np
 
 # Streamlit App Title
 st.title("CSV File Uploader and Viewer")
