@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import geopandas as gpd
 import numpy as np
 from shapely.geometry import Polygon
 from shapely.geometry import Point
