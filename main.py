@@ -17,10 +17,6 @@ if uploaded_file is not None:
     except Exception as e:
         st.error(f"Error reading the file: {e}")
 
-# User Input for grid spacing
-grid_spacing = st.number_input("Enter grid spacing:", min_value=0.0, step=0.1)
-st.write(f"Grid spacing: {grid_spacing}")
-
 # User input for text
 user_text = st.text_input("Enter text (e.g., EPSG:4326):")
 st.write(f"User text: {user_text}")
