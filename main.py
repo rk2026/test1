@@ -72,8 +72,9 @@ if uploaded_file is not None:
     joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
     joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
     joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
-    joined_gdf = joined_gdf.to_crs(epsg=4326)
-    
+    #joined_gdf = joined_gdf.to_crs(epsg=4326)
+    joined_gdf = joined_gdf.set_crs(epsg=4326)
+  
     # Adding centroid coordinates for plotting
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
