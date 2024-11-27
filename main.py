@@ -87,7 +87,7 @@ if uploaded_file is not None:
         df['net_volum_cft'] = df['net_volume'] * 35.3147
         df['firewood_m3'] = df['tree_volume'] - df['net_volume']
         df['firewood_chatta'] = df['firewood_m3'] * 0.105944
-    return df
+        return df
     result_gdf = add_calculated_columns(df=result_gdf)
   
     # Adding centroid coordinates for plotting
