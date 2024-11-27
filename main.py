@@ -52,8 +52,8 @@ data = {
 }
 sppVal = pd.DataFrame(data)
     # Display the DataFrame
-    st.write("sppval CSV File:")
-    st.dataframe(sppVal)
+st.write("sppval CSV File:")
+st.dataframe(sppVal)
 
 
 if uploaded_file is not None:
