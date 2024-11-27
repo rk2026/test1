@@ -84,7 +84,7 @@ if uploaded_file is not None:
         "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
         joined_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
-        get_radius=100,  # Adjust radius based on your data
+        get_radius=5,  # Adjust radius based on your data
         get_color=[255, 0, 0, 140],  # Red with transparency
         pickable=True,
     )
