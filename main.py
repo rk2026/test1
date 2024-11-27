@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import geopandas as gpd
 import numpy as np
+import pydeck as pdk
 from shapely.geometry import Polygon
 from shapely.geometry import Point
 from shapely.geometry import box
@@ -79,4 +80,7 @@ if EPSG:
 
 if grid_spacing:
     st.write(f"Grid Spacing Entered: {grid_spacing}")
+    # Display the DataFrame
+    st.write("Uploaded CSV File:")
+    st.dataframe(joined_df)
 
