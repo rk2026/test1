@@ -74,6 +74,21 @@ if uploaded_file is not None:
     joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
     #joined_gdf = joined_gdf.to_crs(epsg=4326)
     joined_gdf = joined_gdf.set_crs(epsg=4326)
+    # Function to calculate other fields
+    def add_calculated_columns(df):
+        df['stem_volume'] = np.exp(df['a'] + df['b'] * np.log(df['dia_cm']) + df['c'] * np.log(df['height_m'])) / 1000
+        df['branch_ratio'] = df['dia_cm'].apply(lambda x: 0.1 if x < 10 else 0.2)
+        df['branch_volume'] = df['stem_volume'] * df['branch_ratio']
+        df['tree_volume'] = df['stem_volume'] + df['branch_volume']
+        df['cm10diaratio'] = np.exp(df['a1'] + df['b1'] * np.log(df['dia_cm']))
+        df['cm10topvolume'] = df['stem_volume'] * df['cm10diaratio']
+        df['gross_volume'] = df['stem_volume'] - df['cm10topvolume']
+        df['net_volume'] = df.apply(lambda row: row['gross_volume'] * 0.9 if row['class'] == 'A' else row['gross_volume'] * 0.8, axis=1)
+        df['net_volum_cft'] = df['net_volume'] * 35.3147
+        df['firewood_m3'] = df['tree_volume'] - df['net_volume']
+        df['firewood_chatta'] = df['firewood_m3'] * 0.105944
+    return df
+    result_gdf = add_calculated_columns(df=result_gdf)
   
     # Adding centroid coordinates for plotting
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
