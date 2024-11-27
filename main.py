@@ -91,7 +91,10 @@ if uploaded_file is not None:
         df['firewood_chatta'] = df['firewood_m3'] * 0.105944
         return df
     joined_gdf = add_calculated_columns(df=joined_gdf)
-  
+    result_gdf = joined_gdf.to_crs(epsg=EPSG)
+    #create grid
+    
+    
     # Adding centroid coordinates for plotting
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
