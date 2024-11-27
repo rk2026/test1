@@ -74,7 +74,7 @@ if uploaded_file is not None:
     joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
     joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
     joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
-    # geopandas visualization
+# geopandas visualization
 # Load your GeoDataFrame (replace this with your own GeoDataFrame)
 # Example: joined_gdf = gpd.read_file("your_file.geojson")
 
@@ -83,14 +83,14 @@ joined_gdf = joined_gdf.to_crs(epsg=4326)
 
 # Extract the geometry as latitude and longitude for Streamlit compatibility
 # Adding centroid coordinates for plotting
-joined_gdf["lon"] = joined_gdf.geometry.centroid.x
-joined_gdf["lat"] = joined_gdf.geometry.centroid.y
+joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
+joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
 # Create a Pydeck layer for the map
 layer = pdk.Layer(
     "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
     joined_gdf,
-    get_position=["lon", "lat"],
+    get_position=["LONGITUDE", "LATITUDE"],
     get_radius=100,  # Adjust radius based on your data
     get_color=[255, 0, 0, 140],  # Red with transparency
     pickable=True,
@@ -98,8 +98,8 @@ layer = pdk.Layer(
 
 # Set the initial view state of the map
 view_state = pdk.ViewState(
-    latitude=joined_gdf["lat"].mean(),
-    longitude=joined_gdf["lon"].mean(),
+    latitude=joined_gdf["LATITUDE"].mean(),
+    longitude=joined_gdf["LONGITUDE"].mean(),
     zoom=10,  # Adjust zoom level
     pitch=0,
 )
