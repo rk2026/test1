@@ -61,6 +61,8 @@ sppVal = pd.DataFrame(data)
 st.write("sppval CSV File:")
 st.dataframe(sppVal)
 
+layer = None  # Initialize layer outside conditional block
+view_state = None  # Initialize view_state
 if uploaded_file is not None:
     # Read the CSV file into a Pandas DataFrame
     df = pd.read_csv(uploaded_file)
@@ -72,8 +74,8 @@ if uploaded_file is not None:
     joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
     joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
     joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
-    #joined_gdf = joined_gdf.to_crs(epsg=4326)
     joined_gdf = joined_gdf.set_crs(epsg=4326)
+
     # Function to calculate other fields
     def add_calculated_columns(df):
         df['stem_volume'] = np.exp(df['a'] + df['b'] * np.log(df['dia_cm']) + df['c'] * np.log(df['height_m'])) / 1000
@@ -88,13 +90,13 @@ if uploaded_file is not None:
         df['firewood_m3'] = df['tree_volume'] - df['net_volume']
         df['firewood_chatta'] = df['firewood_m3'] * 0.105944
         return df
-    result_gdf = add_calculated_columns(df=result_gdf)
+    joined_gdf = add_calculated_columns(df=joined_gdf)
   
     # Adding centroid coordinates for plotting
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-        # Create a Pydeck layer for the map
+    # Create a Pydeck layer for the map
     layer = pdk.Layer(
         "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
         joined_gdf,
@@ -110,23 +112,18 @@ if uploaded_file is not None:
         zoom=10,  # Adjust zoom level
         pitch=0
     )
+else:
+    # Fallback data for the map if no file is uploaded
+    layer = None
+    view_state = pdk.ViewState(latitude=0, longitude=0, zoom=2, pitch=0)
 
 # Create the deck.gl map
-deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
-
-# Display the map in Streamlit
-st.pydeck_chart(deck)
-
-# Display the Entered Inputs
-if EPSG:
-    st.write(f"EPSG Code Entered: {EPSG}")
-
-if grid_spacing:
-    st.write(f"Grid Spacing Entered: {grid_spacing}")
-
-# Display the Joined DataFrame
-st.write("Display Joined Table")
-st.dataframe(joined_gdf)
+if layer:
+    deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
+    # Display the map in Streamlit
+    st.pydeck_chart(deck)
+else:
+    st.write("No map to display. Please upload a CSV file.")
 
 
    
