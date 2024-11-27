@@ -102,14 +102,14 @@ if uploaded_file is not None:
         joined_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
         get_radius=5,  # Adjust radius based on your data
-        get_color=[100, 50, 50, 140],  # Red with transparency
+        get_color=[155, 50, 50, 140],  # Red with transparency
         pickable=True,
     )
     # Set the initial view state of the map
     view_state = pdk.ViewState(
         latitude=joined_gdf["LATITUDE"].mean(),
         longitude=joined_gdf["LONGITUDE"].mean(),
-        zoom=10,  # Adjust zoom level
+        zoom=15,  # Adjust zoom level
         pitch=0
     )
 else:
