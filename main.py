@@ -87,18 +87,12 @@ if uploaded_file is not None:
         get_color=[255, 0, 0, 140],  # Red with transparency
         pickable=True,
     )
-
     # Set the initial view state of the map
-    view_state = pdk.ViewState(
-        latitude=joined_gdf["LATITUDE"].mean(),
-        longitude=joined_gdf["LONGITUDE"].mean(),
-        zoom=10,  # Adjust zoom level
-# Set the initial view state of the map
 view_state = pdk.ViewState(
     latitude=joined_gdf["LATITUDE"].mean(),
     longitude=joined_gdf["LONGITUDE"].mean(),
     zoom=10,  # Adjust zoom level
-    pitch=0,
+    pitch=0
 )
 
 # Create the deck.gl map
@@ -117,3 +111,6 @@ if grid_spacing:
 # Display the Joined DataFrame
 st.write("Display Joined Table")
 st.dataframe(joined_gdf1)
+
+
+   
