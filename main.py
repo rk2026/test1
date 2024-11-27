@@ -125,5 +125,9 @@ if layer:
 else:
     st.write("No map to display. Please upload a CSV file.")
 
+# Display the DataFrame
+st.write("Analysis Table")
+st.dataframe(joined_gdf)
+
 
    
