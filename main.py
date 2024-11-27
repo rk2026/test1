@@ -57,17 +57,12 @@ data = {
                    'Hill spp', '', '']
 }
 sppVal = pd.DataFrame(data)
-
-
-    # Display the DataFrame
+# Display the DataFrame
 st.write("sppval CSV File:")
 st.dataframe(sppVal)
-
-
-if uploaded_file is not None:
-    # Read the CSV file into a Pandas DataFrame
-df = pd.read_csv(uploaded_file)
-    
+#if uploaded_file is not None:
+# Read the CSV file into a Pandas DataFrame
+df = pd.read_csv(uploaded_file)  
 # Display the DataFrame
 st.write("Uploaded CSV File:")
 st.dataframe(df)
