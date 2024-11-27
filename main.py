@@ -60,27 +60,27 @@ sppVal = pd.DataFrame(data)
 # Display the DataFrame
 st.write("sppval CSV File:")
 st.dataframe(sppVal)
-#if uploaded_file is not None:
+if uploaded_file is not None:
 # Read the CSV file into a Pandas DataFrame
-df = pd.read_csv(uploaded_file)  
+    df = pd.read_csv(uploaded_file)  
 # Display the DataFrame
-st.write("Uploaded CSV File:")
-st.dataframe(df)
-joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
-joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
-joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
+    st.write("Uploaded CSV File:")
+    st.dataframe(df)
+    joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
+    joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
+    joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
 
 # geopandas visualization
 # Load your GeoDataFrame (replace this with your own GeoDataFrame)
 # Example: joined_gdf = gpd.read_file("your_file.geojson")
 
 # Ensure the GeoDataFrame has a CRS in WGS84 (EPSG:4326) for proper mapping
-joined_gdf = joined_gdf.to_crs(epsg=4326)
+    joined_gdf = joined_gdf.to_crs(epsg=4326)
 
 # Extract the geometry as latitude and longitude for Streamlit compatibility
 # Adding centroid coordinates for plotting
-joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
-joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
+    joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
+    joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
 # Create a Pydeck layer for the map
 layer = pdk.Layer(
