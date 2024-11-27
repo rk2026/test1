@@ -62,11 +62,11 @@ st.write("sppval CSV File:")
 st.dataframe(sppVal)
 if uploaded_file is not None:
 # Read the CSV file into a Pandas DataFrame
-df = pd.read_csv(uploaded_file)  
-# Display the DataFrame
+    df = pd.read_csv(uploaded_file)  
+    # Display the DataFrame
     st.write("Uploaded CSV File:")
     st.dataframe(df)
-    
+        
 joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
 joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
 joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
