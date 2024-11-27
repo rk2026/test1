@@ -111,7 +111,7 @@ if grid_spacing:
 
 # Display the Joined DataFrame
 st.write("Display Joined Table")
-st.dataframe(joined_gdf1)
+st.dataframe(joined_gdf)
 
 
    
