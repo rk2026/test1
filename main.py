@@ -69,14 +69,14 @@ if uploaded_file is not None:
     st.dataframe(df)
     
     # Merge dataframes
-    joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
-    joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
-    joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
-    joined_gdf1 = joined_gdf.to_crs(epsg=4326)
+joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
+joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
+joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
+joined_gdf1 = joined_gdf.to_crs(epsg=4326)
     
     # Adding centroid coordinates for plotting
-    joined_gdf1["LONGITUDE"] = joined_gdf.geometry.centroid.x
-    joined_gdf1["LATITUDE"] = joined_gdf.geometry.centroid.y
+joined_gdf1["LONGITUDE"] = joined_gdf.geometry.centroid.x
+joined_gdf1["LATITUDE"] = joined_gdf.geometry.centroid.y
 
     # Create a Pydeck layer for the map
     layer = pdk.Layer(
