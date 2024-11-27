@@ -81,6 +81,6 @@ if EPSG:
 if grid_spacing:
     st.write(f"Grid Spacing Entered: {grid_spacing}")
     # Display the DataFrame
-    st.write("Uploaded CSV File:")
+    st.write("Display Joined table")
     st.dataframe(joined_df)
 
