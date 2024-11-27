@@ -52,6 +52,10 @@ data = {
                    'Hill spp', '', '']
 }
 sppVal = pd.DataFrame(data)
+joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
+joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
+joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
+
     # Display the DataFrame
 st.write("sppval CSV File:")
 st.dataframe(sppVal)
