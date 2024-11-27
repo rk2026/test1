@@ -74,6 +74,7 @@ if uploaded_file is not None:
     joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
     joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
     joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
+    joined_gdf = joined_gdf.copy()
 # geopandas visualization
 # Load your GeoDataFrame (replace this with your own GeoDataFrame)
 # Example: joined_gdf = gpd.read_file("your_file.geojson")
