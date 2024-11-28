@@ -9,10 +9,10 @@ from shapely.geometry import Point
 st.title("CSV File Uploader and Viewer")
 
 # User Input for EPSG
-EPSG = st.text_input("Enter the EPSG Code (e.g., 4326):", value="")
+EPSG = st.text_input("Enter the EPSG Code (e.g., 4326):", value="32645")
 
 # User Input for Grid Spacing
-grid_spacing = st.number_input("Enter Grid Spacing (numeric value):", value=0.0)
+grid_spacing = st.number_input("Enter Grid Spacing (numeric value):", value=20)
 
 # File Upload
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
@@ -93,7 +93,7 @@ if uploaded_file is not None:
     joined_gdf = add_calculated_columns(df=joined_gdf)
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
     #create grid
-    def create_square_grid(gdf, spacing=20):
+    def create_square_grid(gdf, spacing = grid_spacing):
         # Ensure the GeoDataFrame has the correct CRS
         if gdf.crs.to_epsg() != 32645:
             gdf = gdf.to_crs(epsg=32645)
@@ -166,4 +166,4 @@ else:
 
 # Display the DataFrame
 st.write("Analysis Table")
-st.dataframe(result_gdf)  
+st.dataframe(joined_gdf)  
