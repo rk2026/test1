@@ -126,6 +126,8 @@ if uploaded_file is not None:
     result_gdf['color'] = result_gdf['remark'].apply(lambda x: 'red' if x == 'Mother Tree' else 'green')
     # Assuming your color column contains color names like 'red', 'green', etc.
     result_gdf['color'] = result_gdf['color'].apply(lambda x: matplotlib.colors.to_rgba(x))
+    # If colors are stored as strings, e.g., '1,0,0,1'
+    result_gdf['color'] = result_gdf['color'].apply(lambda x: list(map(float, x.split(','))))
 
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
