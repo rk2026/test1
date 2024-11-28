@@ -1,9 +1,9 @@
-import streamlit as st
+import streamlit as st 
 import pandas as pd
 import geopandas as gpd
 import numpy as np
 import pydeck as pdk
-from shapely.geometry import Point
+from shapely.geometry import Point, Polygon
 
 # Streamlit App Title
 st.title("CSV File Uploader and Viewer")
@@ -61,6 +61,41 @@ sppVal = pd.DataFrame(data)
 layer = None  # Ensure layer is defined
 view_state = pdk.ViewState(latitude=0, longitude=0, zoom=2, pitch=0)  # Default view state
 
+# Function to calculate additional fields
+def add_calculated_columns(df):
+    df['stem_volume'] = np.exp(df['a'] + df['b'] * np.log(df['dia_cm']) + df['c'] * np.log(df['height_m'])) / 1000
+    df['branch_ratio'] = df['dia_cm'].apply(lambda x: 0.1 if x < 10 else 0.2)
+    df['branch_volume'] = df['stem_volume'] * df['branch_ratio']
+    df['tree_volume'] = df['stem_volume'] + df['branch_volume']
+    df['cm10diaratio'] = np.exp(df['a1'] + df['b1'] * np.log(df['dia_cm']))
+    df['cm10topvolume'] = df['stem_volume'] * df['cm10diaratio']
+    df['gross_volume'] = df['stem_volume'] - df['cm10topvolume']
+    df['net_volume'] = df.apply(lambda row: row['gross_volume'] * 0.9 if row['class'] == 'A' else row['gross_volume'] * 0.8, axis=1)
+    df['net_volum_cft'] = df['net_volume'] * 35.3147
+    df['firewood_m3'] = df['tree_volume'] - df['net_volume']
+    df['firewood_chatta'] = df['firewood_m3'] * 0.105944
+    return df
+
+# Function to create a square grid
+def create_square_grid(input_gdf, spacing=20):
+    # Ensure the GeoDataFrame has the correct CRS
+    if input_gdf.crs.to_epsg() != 32645:
+        input_gdf = input_gdf.to_crs(epsg=32645)
+    # Get the bounding box of the GeoDataFrame
+    minx, miny, maxx, maxy = input_gdf.total_bounds
+    # Create arrays of coordinates based on the spacing
+    x_coords = np.arange(minx, maxx, spacing)
+    y_coords = np.arange(miny, maxy, spacing)
+    # Create the square polygons
+    polygons = []
+    for x in x_coords:
+        for y in y_coords:
+            polygon = Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
+            polygons.append(polygon)
+    # Create a GeoDataFrame with the square polygons
+    grid_gdf = gpd.GeoDataFrame(geometry=polygons, crs=input_gdf.crs)
+    return grid_gdf
+
 if uploaded_file is not None:
     # Read the CSV file into a Pandas DataFrame
     df = pd.read_csv(uploaded_file)
@@ -73,71 +108,36 @@ if uploaded_file is not None:
     joined_df['geometry'] = joined_df.apply(lambda row: Point(row['LONGITUDE'], row['LATITUDE']), axis=1)
     joined_gdf = gpd.GeoDataFrame(joined_df, geometry='geometry')
     joined_gdf = joined_gdf.set_crs(epsg=4326)
-
-    # Function to calculate other fields
-    def add_calculated_columns(df):
-        df['stem_volume'] = np.exp(df['a'] + df['b'] * np.log(df['dia_cm']) + df['c'] * np.log(df['height_m'])) / 1000
-        df['branch_ratio'] = df['dia_cm'].apply(lambda x: 0.1 if x < 10 else 0.2)
-        df['branch_volume'] = df['stem_volume'] * df['branch_ratio']
-        df['tree_volume'] = df['stem_volume'] + df['branch_volume']
-        df['cm10diaratio'] = np.exp(df['a1'] + df['b1'] * np.log(df['dia_cm']))
-        df['cm10topvolume'] = df['stem_volume'] * df['cm10diaratio']
-        df['gross_volume'] = df['stem_volume'] - df['cm10topvolume']
-        df['net_volume'] = df.apply(lambda row: row['gross_volume'] * 0.9 if row['class'] == 'A' else row['gross_volume'] * 0.8, axis=1)
-        df['net_volum_cft'] = df['net_volume'] * 35.3147
-        df['firewood_m3'] = df['tree_volume'] - df['net_volume']
-        df['firewood_chatta'] = df['firewood_m3'] * 0.105944
-        return df
     joined_gdf = add_calculated_columns(df=joined_gdf)
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
-    #create grid
-    def create_square_grid(input_gdf, spacing=20):
-        # Ensure the GeoDataFrame has the correct CRS
-        if input_gdf.crs.to_epsg() != 32645:
-            input_gdf = input_gdf.to_crs(epsg=32645)
-        # Get the bounding box of the GeoDataFrame
-        minx, miny, maxx, maxy = input_gdf.total_bounds
-        # Create arrays of coordinates based on the spacing
-        x_coords = np.arange(minx, maxx, spacing)
-        y_coords = np.arange(miny, maxy, spacing)
-        # Create the square polygons
-        polygons = []
-        for x in x_coords:
-            for y in y_coords:
-                polygon = Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
-                polygons.append(polygon)
-        # Create a GeoDataFrame with the square polygons
-        grid_gdf = gpd.GeoDataFrame(geometry=polygons, crs=input_gdf.crs)
-        return grid_gdf
     
-# Use the function
-grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
+    # Create grid
+    grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
 
-# Additional calculations and Pydeck layer creation
-joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
-joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
+    # Additional calculations and Pydeck layer creation
+    joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
+    joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-layer = pdk.Layer(
-    "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
-    joined_gdf,
-    get_position=["LONGITUDE", "LATITUDE"],
-    get_radius=5,  # Adjust radius based on your data
-    get_color=[155, 50, 50, 140],  # Red with transparency
-    pickable=True,
-)
-view_state = pdk.ViewState(
-    latitude=joined_gdf["LATITUDE"].mean(),
-    longitude=joined_gdf["LONGITUDE"].mean(),
-    zoom=15,  # Adjust zoom level
-    pitch=0
-)
+    layer = pdk.Layer(
+        "ScatterplotLayer",
+        joined_gdf,
+        get_position=["LONGITUDE", "LATITUDE"],
+        get_radius=5,
+        get_color=[155, 50, 50, 140],
+        pickable=True,
+    )
+    view_state = pdk.ViewState(
+        latitude=joined_gdf["LATITUDE"].mean(),
+        longitude=joined_gdf["LONGITUDE"].mean(),
+        zoom=15,
+        pitch=0
+    )
 
-st.dataframe(grid)
-# Create the deck.gl map
-if layer:
-    deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
-    # Display the map in Streamlit
-    st.pydeck_chart(deck)
+    st.dataframe(grid)
+    # Create the deck.gl map
+    if layer:
+        deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
+        # Display the map in Streamlit
+        st.pydeck_chart(deck)
 else:
     st.write("No map to display. Please upload a CSV file.")
-
