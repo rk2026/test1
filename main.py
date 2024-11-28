@@ -164,6 +164,6 @@ if layer:
 else:
     st.write("No map to display. Please upload a CSV file.")
 
-    # Display the DataFrame
-    st.write("Analysis Table")
-    st.dataframe(result_gdf)  
+# Display the DataFrame
+st.write("Analysis Table")
+st.dataframe(result_gdf)
