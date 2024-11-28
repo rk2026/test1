@@ -10,10 +10,10 @@ from shapely.geometry import Point, Polygon
 st.title("Standing tree volume calculation based on Nepal gov. guideline")
 
 # User Input for EPSG
-EPSG = st.text_input("Your uploading data will be always in wgs84 format. But here enter the UTM zone That will be either 32644 (UTM44) and 32645 (UTM45)", value="32645")
+EPSG = st.text_input("Enter the value either 32644 (UTM44) or 32645 (UTM45)", value="32645")
 
 # User Input for Grid Spacing
-grid_spacing = st.number_input("Mother tree to mother tree designed distance in meter", value=20)
+grid_spacing = st.number_input("Mother tree to mother tree distance in meter", value=20)
 
 # File Upload
 uploaded_file = st.file_uploader("Upload your CSV file", type=["csv"])
