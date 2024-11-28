@@ -153,7 +153,7 @@ if uploaded_file is not None:
         latitude=result_gdf["LATITUDE"].mean(),
         longitude=result_gdf["LONGITUDE"].mean(),
         zoom=15,
-        pitch=45,
+        pitch=0,
     )
     
     # Combine the layers
