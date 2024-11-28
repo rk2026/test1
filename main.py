@@ -118,34 +118,31 @@ if uploaded_file is not None:
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-# Ensure both GeoDataFrames are prepared
-# Convert GeoDataFrames to the appropriate formats if necessary (e.g., GeoJSON or DataFrame with geometry columns)
-
 # Define the ScatterplotLayer for points
 point_layer = pdk.Layer(
     "ScatterplotLayer",
-    result_gdf,  # GeoDataFrame with point data
+    result_gdf,
     get_position=["LONGITUDE", "LATITUDE"],
-    get_radius=50,  # Adjust the radius as needed
-    get_color=[0, 0, 255, 200],  # Blue color for points
+    get_radius=2,
+    get_color=[0, 0, 205, 200],
     pickable=True,
 )
 
 # Define the PolygonLayer for polygons
 polygon_layer = pdk.Layer(
     "PolygonLayer",
-    grid,  # GeoDataFrame with polygon data
-    get_polygon="geometry",  # Assumes 'geometry' column contains polygons
-    get_fill_color=[155, 50, 50, 140],  # Red fill with transparency
-    get_line_color=[0, 0, 0, 200],  # Black outline
+    grid,
+    get_polygon="geometry",
+    get_fill_color=[155, 50, 50, 140],
+    get_line_color=[0, 0, 0, 200],
     pickable=True,
 )
 
-# Set the view state to center the map around the data
+# Set the view state
 view_state = pdk.ViewState(
-    latitude=joined_gdf["LATITUDE"].mean(),
-    longitude=joined_gdf["LONGITUDE"].mean(),
-    zoom=12,  # Adjust zoom level as needed
+    latitude=result_gdf["LATITUDE"].mean(),
+    longitude=result_gdf["LONGITUDE"].mean(),
+    zoom=12,
     pitch=0,
 )
 
@@ -155,13 +152,14 @@ deck = pdk.Deck(
     initial_view_state=view_state,
 )
 
-# Display the map in Streamlit
+# Display the map
 st.pydeck_chart(deck)
 
-# Optionally display dataframes as tables below the map
+# Optionally display dataframes
 st.write("Result GeoDataFrame (Points):")
 st.dataframe(result_gdf)
 
 st.write("Grid GeoDataFrame (Polygons):")
 st.dataframe(grid)
+
 
