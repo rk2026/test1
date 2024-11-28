@@ -130,6 +130,7 @@ if uploaded_file is not None:
     #result_gdf['color'] = result_gdf['color'].apply(lambda x: list(map(float, x.split(','))))
     # If color is already in tuple format (e.g., (1, 0, 0, 1)), no need to split.
     result_gdf['color'] = result_gdf['color'].apply(lambda x: list(x))
+    result_gdf['color'] = result_gdf['color'].apply(lambda x: [int(val * 255) for val in x])
 
 
     # Additional calculations and Pydeck layer creation
