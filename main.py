@@ -127,7 +127,10 @@ if uploaded_file is not None:
     # Assuming your color column contains color names like 'red', 'green', etc.
     result_gdf['color'] = result_gdf['color'].apply(lambda x: matplotlib.colors.to_rgba(x))
     # If colors are stored as strings, e.g., '1,0,0,1'
-    result_gdf['color'] = result_gdf['color'].apply(lambda x: list(map(float, x.split(','))))
+    #result_gdf['color'] = result_gdf['color'].apply(lambda x: list(map(float, x.split(','))))
+    # If color is already in tuple format (e.g., (1, 0, 0, 1)), no need to split.
+    result_gdf['color'] = result_gdf['color'].apply(lambda x: list(x))
+
 
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
