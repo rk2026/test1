@@ -112,6 +112,7 @@ if uploaded_file is not None:
     
 # Use the function
 grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
+
 # Additional calculations and Pydeck layer creation
 joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
 joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
