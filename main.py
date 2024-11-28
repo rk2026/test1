@@ -118,46 +118,6 @@ if uploaded_file is not None:
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-    '''layer = pdk.Layer(
-        "ScatterplotLayer",
-        joined_gdf,
-        get_position=["LONGITUDE", "LATITUDE"],
-        get_radius=5,
-        get_color=[155, 50, 50, 140],
-        pickable=True,
-    )
-    layer = pdk.Layer(
-        "PolygonLayer",
-        grid,
-        get_polygon="geometry",  # Replace 'geometry' with the field containing the polygon geometry
-        get_fill_color=[155, 50, 50, 140],
-        get_line_color=[0, 0, 0, 200],
-        pickable=True,
-    )
-    # Render the deck.gl map
-    view_state = pdk.ViewState(latitude=37.7749, longitude=-122.4194, zoom=10, pitch=50)
-    r = pdk.Deck(layers=[layer], initial_view_state=view_state)
-    r.to_html("polygon_layer.html")
-    view_state = pdk.ViewState(
-        latitude=joined_gdf["LATITUDE"].mean(),
-        longitude=joined_gdf["LONGITUDE"].mean(),
-        zoom=15,
-        pitch=0
-    )
-
-    st.dataframe(result_gdf)
-    
-    # Create the deck.gl map
-    if layer:
-        deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
-        # Display the map in Streamlit
-        st.pydeck_chart(deck)
-else:
-    st.write("No map to display. Please upload a CSV file.")'''
-
-import pydeck as pdk
-import streamlit as st
-
 # Ensure both GeoDataFrames are prepared
 # Convert GeoDataFrames to the appropriate formats if necessary (e.g., GeoJSON or DataFrame with geometry columns)
 
@@ -198,10 +158,10 @@ deck = pdk.Deck(
 # Display the map in Streamlit
 st.pydeck_chart(deck)
 
-'''# Optionally display dataframes as tables below the map
+# Optionally display dataframes as tables below the map
 st.write("Result GeoDataFrame (Points):")
 st.dataframe(result_gdf)
 
 st.write("Grid GeoDataFrame (Polygons):")
-st.dataframe(grid)'''
+st.dataframe(grid)
 
