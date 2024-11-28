@@ -142,8 +142,10 @@ if uploaded_file is not None:
         result_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
         get_radius=2,
-        get_color=[255, 0, 0, 255],
+        get_color="color",
         pickable=True,
+        auto_highlight=True,
+        tooltip={"html": "<b>Color:</b> {color}"}, 
     )
     
     # Define the PolygonLayer for polygons
