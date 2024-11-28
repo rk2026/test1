@@ -3,6 +3,7 @@ import pandas as pd
 import geopandas as gpd
 import numpy as np
 import pydeck as pdk
+import matplotlib
 from shapely.geometry import Point, Polygon
 
 # Streamlit App Title
@@ -123,6 +124,8 @@ if uploaded_file is not None:
     result_gdf['remark'] = 'Felling Tree'
     result_gdf.loc[~first_unique_mask, 'remark'] = 'Mother Tree'
     result_gdf['color'] = result_gdf['remark'].apply(lambda x: 'red' if x == 'Mother Tree' else 'green')
+    # Assuming your color column contains color names like 'red', 'green', etc.
+    result_gdf['color'] = result_gdf['color'].apply(lambda x: matplotlib.colors.to_rgba(x))
 
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
