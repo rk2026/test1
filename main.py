@@ -118,7 +118,7 @@ if uploaded_file is not None:
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-    layer = pdk.Layer(
+    '''layer = pdk.Layer(
         "ScatterplotLayer",
         joined_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
@@ -153,4 +153,55 @@ if uploaded_file is not None:
         # Display the map in Streamlit
         st.pydeck_chart(deck)
 else:
-    st.write("No map to display. Please upload a CSV file.")
+    st.write("No map to display. Please upload a CSV file.")'''
+
+import pydeck as pdk
+import streamlit as st
+
+# Ensure both GeoDataFrames are prepared
+# Convert GeoDataFrames to the appropriate formats if necessary (e.g., GeoJSON or DataFrame with geometry columns)
+
+# Define the ScatterplotLayer for points
+point_layer = pdk.Layer(
+    "ScatterplotLayer",
+    result_gdf,  # GeoDataFrame with point data
+    get_position=["LONGITUDE", "LATITUDE"],
+    get_radius=50,  # Adjust the radius as needed
+    get_color=[0, 0, 255, 200],  # Blue color for points
+    pickable=True,
+)
+
+# Define the PolygonLayer for polygons
+polygon_layer = pdk.Layer(
+    "PolygonLayer",
+    grid,  # GeoDataFrame with polygon data
+    get_polygon="geometry",  # Assumes 'geometry' column contains polygons
+    get_fill_color=[155, 50, 50, 140],  # Red fill with transparency
+    get_line_color=[0, 0, 0, 200],  # Black outline
+    pickable=True,
+)
+
+# Set the view state to center the map around the data
+view_state = pdk.ViewState(
+    latitude=joined_gdf["LATITUDE"].mean(),
+    longitude=joined_gdf["LONGITUDE"].mean(),
+    zoom=12,  # Adjust zoom level as needed
+    pitch=0,
+)
+
+# Combine the layers
+deck = pdk.Deck(
+    layers=[point_layer, polygon_layer],
+    initial_view_state=view_state,
+)
+
+# Display the map in Streamlit
+st.pydeck_chart(deck)
+
+'''# Optionally display dataframes as tables below the map
+st.write("Result GeoDataFrame (Points):")
+st.dataframe(result_gdf)
+
+st.write("Grid GeoDataFrame (Polygons):")
+st.dataframe(grid)'''
+
