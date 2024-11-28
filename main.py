@@ -152,8 +152,8 @@ if uploaded_file is not None:
     view_state = pdk.ViewState(
         latitude=result_gdf["LATITUDE"].mean(),
         longitude=result_gdf["LONGITUDE"].mean(),
-        zoom=10,
-        pitch=0,
+        zoom=15,
+        pitch=45,
     )
     
     # Combine the layers
