@@ -113,6 +113,16 @@ if uploaded_file is not None:
     
     # Create grid
     grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
+    grid_gdf['gid'] = grid_gdf.index + 1
+    # Spatial join to assign 'gid' to points based on intersection
+    result_gdf = gpd.sjoin(result_gdf, grid_gdf, how='inner', predicate='intersects')
+    result_gdf = result_gdf.sort_values(by='gid', ascending=True)
+    # Create a boolean mask to identify the first unique 'gid' value
+    first_unique_mask = result_gdf['gid'].duplicated(keep='first')
+    # Create the 'remark' column and populate it based on the mask
+    result_gdf['remark'] = 'Felling Tree'
+    result_gdf.loc[~first_unique_mask, 'remark'] = 'Mother Tree'
+    result_gdf['color'] = result_gdf['remark'].apply(lambda x: 'red' if x == 'Mother Tree' else 'green')
 
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
@@ -158,8 +168,5 @@ st.pydeck_chart(deck)
 # Optionally display dataframes
 st.write("Result GeoDataFrame (Points):")
 st.dataframe(result_gdf)
-
-st.write("Grid GeoDataFrame (Polygons):")
-st.dataframe(grid)
 
 
