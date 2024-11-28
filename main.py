@@ -134,6 +134,7 @@ if uploaded_file is not None:
     )
 
     st.dataframe(result_gdf)
+    st.dataframe(grid)
     # Create the deck.gl map
     if layer:
         deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
