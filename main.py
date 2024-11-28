@@ -91,32 +91,28 @@ if uploaded_file is not None:
     joined_gdf = add_calculated_columns(df=joined_gdf)
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
     #create grid
-        def create_square_grid(input_gdf, spacing=20):
-            # Ensure the GeoDataFrame has the correct CRS
-            if input_gdf.crs.to_epsg() != 32645:
-                input_gdf = input_gdf.to_crs(epsg=32645)
-            # Get the bounding box of the GeoDataFrame
-            minx, miny, maxx, maxy = input_gdf.total_bounds
-            # Create arrays of coordinates based on the spacing
-            x_coords = np.arange(minx, maxx, spacing)
-            y_coords = np.arange(miny, maxy, spacing)
-            # Create the square polygons
-            polygons = []
-            for x in x_coords:
-                for y in y_coords:
-                    polygon = Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
-                    polygons.append(polygon)
-            # Create a GeoDataFrame with the square polygons
-            grid_gdf = gpd.GeoDataFrame(geometry=polygons, crs=input_gdf.crs)
-        
-            return grid_gdf
+    def create_square_grid(input_gdf, spacing=20):
+        # Ensure the GeoDataFrame has the correct CRS
+        if input_gdf.crs.to_epsg() != 32645:
+            input_gdf = input_gdf.to_crs(epsg=32645)
+        # Get the bounding box of the GeoDataFrame
+        minx, miny, maxx, maxy = input_gdf.total_bounds
+        # Create arrays of coordinates based on the spacing
+        x_coords = np.arange(minx, maxx, spacing)
+        y_coords = np.arange(miny, maxy, spacing)
+        # Create the square polygons
+        polygons = []
+        for x in x_coords:
+            for y in y_coords:
+                polygon = Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
+                polygons.append(polygon)
+        # Create a GeoDataFrame with the square polygons
+        grid_gdf = gpd.GeoDataFrame(geometry=polygons, crs=input_gdf.crs)
+        return grid_gdf
     
 # Use the function
 grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
-
-
-    
-    # Additional calculations and Pydeck layer creation
+# Additional calculations and Pydeck layer creation
 joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
 joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
