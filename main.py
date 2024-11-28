@@ -127,13 +127,17 @@ if uploaded_file is not None:
         pickable=True,
     )
     layer = pdk.Layer(
-        "ScatterplotLayer",
+        "PolygonLayer",
         grid,
-        get_position=["LONGITUDE", "LATITUDE"],
-        get_radius=5,
-        get_color=[155, 50, 50, 140],
+        get_polygon="geometry",  # Replace 'geometry' with the field containing the polygon geometry
+        get_fill_color=[155, 50, 50, 140],
+        get_line_color=[0, 0, 0, 200],
         pickable=True,
     )
+    # Render the deck.gl map
+    view_state = pdk.ViewState(latitude=37.7749, longitude=-122.4194, zoom=10, pitch=50)
+        r = pdk.Deck(layers=[layer], initial_view_state=view_state)
+        r.to_html("polygon_layer.html")
     view_state = pdk.ViewState(
         latitude=joined_gdf["LATITUDE"].mean(),
         longitude=joined_gdf["LONGITUDE"].mean(),
