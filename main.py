@@ -166,7 +166,4 @@ else:
 
 # Display the DataFrame
 st.write("Analysis Table")
-st.dataframe(joined_gdf)
-
-
-   
+st.dataframe(result_gdf)  
