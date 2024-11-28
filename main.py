@@ -126,6 +126,14 @@ if uploaded_file is not None:
         get_color=[155, 50, 50, 140],
         pickable=True,
     )
+    layer = pdk.Layer(
+        "ScatterplotLayer",
+        grid,
+        get_position=["LONGITUDE", "LATITUDE"],
+        get_radius=5,
+        get_color=[155, 50, 50, 140],
+        pickable=True,
+    )
     view_state = pdk.ViewState(
         latitude=joined_gdf["LATITUDE"].mean(),
         longitude=joined_gdf["LONGITUDE"].mean(),
@@ -134,7 +142,7 @@ if uploaded_file is not None:
     )
 
     st.dataframe(result_gdf)
-    st.dataframe(grid)
+    
     # Create the deck.gl map
     if layer:
         deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
