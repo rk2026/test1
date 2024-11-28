@@ -179,14 +179,3 @@ if uploaded_file is not None:
     # Optionally display dataframes
     st.write("Result GeoDataFrame (Points):")
     st.dataframe(result_gdf)
-    st.write(result_gdf['color'].isnull().sum())  # Check for missing values
-    st.write(result_gdf.head())  # Check the first few rows
-    # Check the type of the first element in the color column
-    st.write(type(result_gdf['color'].iloc[0]))
-    # Check the first few rows of the color column
-    st.write(result_gdf['color'].head())
-
-
-
-
-
