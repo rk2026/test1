@@ -90,6 +90,33 @@ if uploaded_file is not None:
         return df
     joined_gdf = add_calculated_columns(df=joined_gdf)
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
+    def create_square_grid(gdf, spacing=20):
+        # Ensure the GeoDataFrame has the correct CRS
+        if gdf.crs.to_epsg() != 32645:
+            gdf = gdf.to_crs(epsg=32645)
+        
+        # Get the bounding box of the GeoDataFrame
+        minx, miny, maxx, maxy = gdf.total_bounds
+        
+        # Create arrays of coordinates based on the spacing
+        x_coords = np.arange(minx, maxx, spacing)
+        y_coords = np.arange(miny, maxy, spacing)
+        
+        # Create the square polygons
+        polygons = []
+        for x in x_coords:
+            for y in y_coords:
+                polygon = Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
+                polygons.append(polygon)
+        
+        # Create a GeoDataFrame with the square polygons
+        grid_gdf = gpd.GeoDataFrame(geometry=polygons, crs=gdf.crs)
+        
+        # Visualize the grid polygons before clipping
+        grid_gdf.plot(edgecolor='red')
+        plt.title("Square Grid Polygons Before Clipping")
+        plt.show()   
+        return grid_gdf    
 
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
@@ -110,7 +137,7 @@ if uploaded_file is not None:
         pitch=0
     )
 
-    st.dataframe(result_gdf)
+    st.dataframe(grid_gdf)
 # Create the deck.gl map
 if layer:
     deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
