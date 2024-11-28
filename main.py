@@ -171,5 +171,7 @@ if uploaded_file is not None:
     # Optionally display dataframes
     st.write("Result GeoDataFrame (Points):")
     st.dataframe(result_gdf)
+    st.write(result_gdf['color'].isnull().sum())  # Check for missing values
+
 
 
