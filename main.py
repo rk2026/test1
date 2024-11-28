@@ -118,6 +118,7 @@ if uploaded_file is not None:
         plt.show()   
         return grid_gdf    
 
+    grid = create_square_grid(gdf,grid_spacing)
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
@@ -137,7 +138,7 @@ if uploaded_file is not None:
         pitch=0
     )
 
-    st.dataframe(grid_gdf)
+    st.dataframe(grid)
 # Create the deck.gl map
 if layer:
     deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
