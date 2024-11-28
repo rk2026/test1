@@ -57,12 +57,14 @@ data = {
 }
 sppVal = pd.DataFrame(data)
 
-# Initialize variables at the top
-result_gdf = None  # Define result_gdf outside the conditional block
+# Initialize layer and view_state before the conditional block
+layer = None  # Ensure layer is defined
+view_state = pdk.ViewState(latitude=0, longitude=0, zoom=2, pitch=0)  # Default view state
 
 if uploaded_file is not None:
     # Read the CSV file into a Pandas DataFrame
     df = pd.read_csv(uploaded_file)
+    # Display the DataFrame
     st.write("Uploaded CSV File:")
     st.dataframe(df)
     
@@ -86,57 +88,33 @@ if uploaded_file is not None:
         df['firewood_m3'] = df['tree_volume'] - df['net_volume']
         df['firewood_chatta'] = df['firewood_m3'] * 0.105944
         return df
-
     joined_gdf = add_calculated_columns(df=joined_gdf)
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
-    
-    # Create grid
-    def create_square_grid(gdf, spacing=grid_spacing):
-        if gdf.crs.to_epsg() != 32645:
-            gdf = gdf.to_crs(epsg=32645)
-        minx, miny, maxx, maxy = gdf.total_bounds
-        x_coords = np.arange(minx, maxx, spacing)
-        y_coords = np.arange(miny, maxy, spacing)
-        polygons = [Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
-                    for x in x_coords for y in y_coords]
-        grid_gdf = gpd.GeoDataFrame(geometry=polygons, crs=gdf.crs)
-        return grid_gdf
 
-    grid_gdf = create_square_grid(result_gdf)
-    grid_gdf['gid'] = grid_gdf.index + 1
-    result_gdf = gpd.sjoin(result_gdf, grid_gdf, how='inner', predicate='intersects')
-    result_gdf = result_gdf.sort_values(by='gid', ascending=True)
-    first_unique_mask = result_gdf['gid'].duplicated(keep='first')
-    result_gdf['remark'] = 'Felling Tree'
-    result_gdf.loc[~first_unique_mask, 'remark'] = 'Mother Tree'
-    result_gdf['color'] = result_gdf['remark'].apply(lambda x: 'red' if x == 'Mother Tree' else 'green')
-
+    # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
+
     layer = pdk.Layer(
-        "ScatterplotLayer",
+        "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
         joined_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
-        get_radius=5,
-        get_color=[155, 50, 50, 140],
+        get_radius=5,  # Adjust radius based on your data
+        get_color=[155, 50, 50, 140],  # Red with transparency
         pickable=True,
     )
     view_state = pdk.ViewState(
         latitude=joined_gdf["LATITUDE"].mean(),
         longitude=joined_gdf["LONGITUDE"].mean(),
-        zoom=15,
+        zoom=15,  # Adjust zoom level
         pitch=0
     )
-else:
-    st.write("No CSV file uploaded.")
 
-# Render map if available
+# Create the deck.gl map
 if layer:
     deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
+    # Display the map in Streamlit
     st.pydeck_chart(deck)
-
-# Display the DataFrame if result_gdf is created
-if result_gdf is not None:
-    st.write("Analysis Table")
-    st.dataframe(result_gdf)
+else:
+    st.write("No map to display. Please upload a CSV file.")
 
