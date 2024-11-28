@@ -57,16 +57,12 @@ data = {
 }
 sppVal = pd.DataFrame(data)
 
-# Display the DataFrame
-st.write("sppval CSV File:")
-st.dataframe(sppVal)
+# Initialize variables at the top
+result_gdf = None  # Define result_gdf outside the conditional block
 
-layer = None  # Initialize layer outside conditional block
-view_state = None  # Initialize view_state
 if uploaded_file is not None:
     # Read the CSV file into a Pandas DataFrame
     df = pd.read_csv(uploaded_file)
-    # Display the DataFrame
     st.write("Uploaded CSV File:")
     st.dataframe(df)
     
@@ -90,80 +86,57 @@ if uploaded_file is not None:
         df['firewood_m3'] = df['tree_volume'] - df['net_volume']
         df['firewood_chatta'] = df['firewood_m3'] * 0.105944
         return df
+
     joined_gdf = add_calculated_columns(df=joined_gdf)
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
-    #create grid
-    def create_square_grid(gdf, spacing = grid_spacing):
-        # Ensure the GeoDataFrame has the correct CRS
+    
+    # Create grid
+    def create_square_grid(gdf, spacing=grid_spacing):
         if gdf.crs.to_epsg() != 32645:
             gdf = gdf.to_crs(epsg=32645)
-        
-        # Get the bounding box of the GeoDataFrame
         minx, miny, maxx, maxy = gdf.total_bounds
-        
-        # Create arrays of coordinates based on the spacing
         x_coords = np.arange(minx, maxx, spacing)
         y_coords = np.arange(miny, maxy, spacing)
-        
-        # Create the square polygons
-        polygons = []
-        for x in x_coords:
-            for y in y_coords:
-                polygon = Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
-                polygons.append(polygon)
-        
-        # Create a GeoDataFrame with the square polygons
+        polygons = [Polygon([(x, y), (x + spacing, y), (x + spacing, y + spacing), (x, y + spacing)])
+                    for x in x_coords for y in y_coords]
         grid_gdf = gpd.GeoDataFrame(geometry=polygons, crs=gdf.crs)
-        
-        # Visualize the grid polygons before clipping
-        grid_gdf.plot(edgecolor='red')
-        plt.title("Square Grid Polygons Before Clipping")
-        plt.show()   
         return grid_gdf
+
     grid_gdf = create_square_grid(result_gdf)
     grid_gdf['gid'] = grid_gdf.index + 1
-    # Spatial join to assign 'gid' to points based on intersection
     result_gdf = gpd.sjoin(result_gdf, grid_gdf, how='inner', predicate='intersects')
     result_gdf = result_gdf.sort_values(by='gid', ascending=True)
-    # Create a boolean mask to identify the first unique 'gid' value
     first_unique_mask = result_gdf['gid'].duplicated(keep='first')
-    # Create the 'remark' column and populate it based on the mask
     result_gdf['remark'] = 'Felling Tree'
     result_gdf.loc[~first_unique_mask, 'remark'] = 'Mother Tree'
     result_gdf['color'] = result_gdf['remark'].apply(lambda x: 'red' if x == 'Mother Tree' else 'green')
-    # Adding centroid coordinates for plotting
+
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
-
-    # Create a Pydeck layer for the map
     layer = pdk.Layer(
-        "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
+        "ScatterplotLayer",
         joined_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
-        get_radius=5,  # Adjust radius based on your data
-        get_color=[155, 50, 50, 140],  # Red with transparency
+        get_radius=5,
+        get_color=[155, 50, 50, 140],
         pickable=True,
     )
-    # Set the initial view state of the map
     view_state = pdk.ViewState(
         latitude=joined_gdf["LATITUDE"].mean(),
         longitude=joined_gdf["LONGITUDE"].mean(),
-        zoom=15,  # Adjust zoom level
+        zoom=15,
         pitch=0
     )
 else:
-    # Fallback data for the map if no file is uploaded
-    layer = None
-    view_state = pdk.ViewState(latitude=0, longitude=0, zoom=2, pitch=0)
+    st.write("No CSV file uploaded.")
 
-# Create the deck.gl map
+# Render map if available
 if layer:
     deck = pdk.Deck(layers=[layer], initial_view_state=view_state)
-    # Display the map in Streamlit
     st.pydeck_chart(deck)
-else:
-    st.write("No map to display. Please upload a CSV file.")
 
-# Display the DataFrame
-st.write("Analysis Table")
-st.dataframe(result_gdf)
+# Display the DataFrame if result_gdf is created
+if result_gdf is not None:
+    st.write("Analysis Table")
+    st.dataframe(result_gdf)
+
