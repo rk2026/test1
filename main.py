@@ -136,8 +136,8 @@ if uploaded_file is not None:
     )
     # Render the deck.gl map
     view_state = pdk.ViewState(latitude=37.7749, longitude=-122.4194, zoom=10, pitch=50)
-        r = pdk.Deck(layers=[layer], initial_view_state=view_state)
-        r.to_html("polygon_layer.html")
+    r = pdk.Deck(layers=[layer], initial_view_state=view_state)
+    r.to_html("polygon_layer.html")
     view_state = pdk.ViewState(
         latitude=joined_gdf["LATITUDE"].mean(),
         longitude=joined_gdf["LONGITUDE"].mean(),
