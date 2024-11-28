@@ -128,45 +128,45 @@ if uploaded_file is not None:
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-# Define the ScatterplotLayer for points
-point_layer = pdk.Layer(
-    "ScatterplotLayer",
-    result_gdf,
-    get_position=["LONGITUDE", "LATITUDE"],
-    get_radius=2,
-    get_color=[0, 0, 205, 200],
-    pickable=True,
-)
-
-# Define the PolygonLayer for polygons
-polygon_layer = pdk.Layer(
-    "PolygonLayer",
-    grid,
-    get_polygon="geometry",
-    get_fill_color=[155, 50, 50, 140],
-    get_line_color=[0, 0, 0, 200],
-    pickable=True,
-)
-
-# Set the view state
-view_state = pdk.ViewState(
-    latitude=result_gdf["LATITUDE"].mean(),
-    longitude=result_gdf["LONGITUDE"].mean(),
-    zoom=12,
-    pitch=0,
-)
-
-# Combine the layers
-deck = pdk.Deck(
-    layers=[point_layer, polygon_layer],
-    initial_view_state=view_state,
-)
-
-# Display the map
-st.pydeck_chart(deck)
-
-# Optionally display dataframes
-st.write("Result GeoDataFrame (Points):")
-st.dataframe(result_gdf)
+    # Define the ScatterplotLayer for points
+    point_layer = pdk.Layer(
+        "ScatterplotLayer",
+        result_gdf,
+        get_position=["LONGITUDE", "LATITUDE"],
+        get_radius=2,
+        get_color=[0, 0, 205, 200],
+        pickable=True,
+    )
+    
+    # Define the PolygonLayer for polygons
+    polygon_layer = pdk.Layer(
+        "PolygonLayer",
+        grid,
+        get_polygon="geometry",
+        get_fill_color=[155, 50, 50, 140],
+        get_line_color=[0, 0, 0, 200],
+        pickable=True,
+    )
+    
+    # Set the view state
+    view_state = pdk.ViewState(
+        latitude=result_gdf["LATITUDE"].mean(),
+        longitude=result_gdf["LONGITUDE"].mean(),
+        zoom=12,
+        pitch=0,
+    )
+    
+    # Combine the layers
+    deck = pdk.Deck(
+        layers=[point_layer, polygon_layer],
+        initial_view_state=view_state,
+    )
+    
+    # Display the map
+    st.pydeck_chart(deck)
+    
+    # Optionally display dataframes
+    st.write("Result GeoDataFrame (Points):")
+    st.dataframe(result_gdf)
 
 
