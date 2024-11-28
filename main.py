@@ -7,10 +7,10 @@ import matplotlib
 from shapely.geometry import Point, Polygon
 
 # Streamlit App Title
-st.title("Standing tree volume calculation based on Nepal gov. guideline")
+st.title("Standing tree volume calculation")
 
 # User Input for EPSG
-EPSG = st.text_input("Enter the value either 32644 (UTM44) or 32645 (UTM45)", value="32645")
+EPSG = st.text_input("Enter 32644 (UTM44) or 32645 (UTM45)", value="32645")
 
 # User Input for Grid Spacing
 grid_spacing = st.number_input("Mother tree to mother tree distance in meter", value=20)
