@@ -141,7 +141,7 @@ if uploaded_file is not None:
     # Define the PolygonLayer for polygons
     polygon_layer = pdk.Layer(
         "PolygonLayer",
-        grid,
+        grid_gdf,
         get_polygon="geometry",
         get_fill_color=[155, 50, 50, 140],
         get_line_color=[0, 0, 0, 200],
