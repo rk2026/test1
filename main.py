@@ -142,7 +142,7 @@ if uploaded_file is not None:
         result_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
         get_radius=2,
-        get_color="color",
+        get_color=[0,0.5019607843137255,0,1],
         pickable=True,
         auto_highlight=True,
         tooltip={"html": "<b>Color:</b> {color}"}, 
