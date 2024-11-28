@@ -120,20 +120,20 @@ grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
 joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
 joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
-    layer = pdk.Layer(
-        "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
-        joined_gdf,
-        get_position=["LONGITUDE", "LATITUDE"],
-        get_radius=5,  # Adjust radius based on your data
-        get_color=[155, 50, 50, 140],  # Red with transparency
-        pickable=True,
-    )
-    view_state = pdk.ViewState(
-        latitude=joined_gdf["LATITUDE"].mean(),
-        longitude=joined_gdf["LONGITUDE"].mean(),
-        zoom=15,  # Adjust zoom level
-        pitch=0
-    )
+layer = pdk.Layer(
+    "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
+    joined_gdf,
+    get_position=["LONGITUDE", "LATITUDE"],
+    get_radius=5,  # Adjust radius based on your data
+    get_color=[155, 50, 50, 140],  # Red with transparency
+    pickable=True,
+)
+view_state = pdk.ViewState(
+    latitude=joined_gdf["LATITUDE"].mean(),
+    longitude=joined_gdf["LONGITUDE"].mean(),
+    zoom=15,  # Adjust zoom level
+    pitch=0
+)
 
     st.dataframe(grid)
 # Create the deck.gl map
