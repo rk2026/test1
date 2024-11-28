@@ -7,7 +7,7 @@ import matplotlib
 from shapely.geometry import Point, Polygon
 
 # Streamlit App Title
-st.title("CSV File Uploader and Viewer")
+st.title("Standing tree volume calculation based on Nepal gov. guideline")
 
 # User Input for EPSG
 EPSG = st.text_input("Enter the EPSG Code (e.g., 4326):", value="32645")
@@ -174,8 +174,9 @@ if uploaded_file is not None:
     )
     
     # Display the map
+    st.write("View the Mother Tree and Felling Tree Location")
     st.pydeck_chart(deck)
     
     # Optionally display dataframes
-    st.write("Result GeoDataFrame (Points):")
+    st.write("Download Detailed Analysis table. Click the download buttorn just right top of the table:")
     st.dataframe(result_gdf)
