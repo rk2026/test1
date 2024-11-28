@@ -134,7 +134,7 @@ if uploaded_file is not None:
         result_gdf,
         get_position=["LONGITUDE", "LATITUDE"],
         get_radius=2,
-        get_color=[144, 238, 144, 128],
+        get_color="color",
         pickable=True,
     )
     
