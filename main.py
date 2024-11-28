@@ -101,8 +101,8 @@ if uploaded_file is not None:
     # Read the CSV file into a Pandas DataFrame
     df = pd.read_csv(uploaded_file)
     # Display the DataFrame
-    st.write("Uploaded CSV File:")
-    st.dataframe(df)
+    #st.write("Uploaded CSV File:")
+    #st.dataframe(df)
     
     # Merge dataframes
     joined_df = df.merge(sppVal, left_on='species', right_on='scientific_name')
