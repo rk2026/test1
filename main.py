@@ -90,6 +90,7 @@ if uploaded_file is not None:
         return df
     joined_gdf = add_calculated_columns(df=joined_gdf)
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
+    #create grid
     def create_square_grid(input_gdf, spacing=20):
         # Ensure the GeoDataFrame has the correct CRS
         if input_gdf.crs.to_epsg() != 32645:
@@ -116,8 +117,8 @@ grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
 
     
     # Additional calculations and Pydeck layer creation
-    joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
-    joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
+joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
+joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
     layer = pdk.Layer(
         "ScatterplotLayer",  # You can also use other layers like GeoJsonLayer
