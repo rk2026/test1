@@ -112,7 +112,7 @@ if uploaded_file is not None:
     result_gdf = joined_gdf.to_crs(epsg=EPSG)
     
     # Create grid
-    grid = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
+    grid_gdf = create_square_grid(input_gdf=result_gdf, spacing=grid_spacing)
     grid_gdf['gid'] = grid_gdf.index + 1
     # Spatial join to assign 'gid' to points based on intersection
     result_gdf = gpd.sjoin(result_gdf, grid_gdf, how='inner', predicate='intersects')
