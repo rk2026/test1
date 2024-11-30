@@ -205,44 +205,6 @@ if uploaded_file is not None:
     # Display the map
     st.write("View the Mother Tree and Felling Tree Location")
     st.pydeck_chart(deck)
-    
-    '''
-    # Dynamic Scale Bar Using HTML/CSS and JavaScript
-    st.markdown("""
-    <div id="map-container" style="position: relative; width: 50%; height: 50px;">
-        <div id="scale-bar" style="
-            position: relative; 
-            bottom: 60px; 
-            left: 60px; 
-            background: rgba(0, 0, 255, 0.5); 
-            padding: 15px; 
-            border: 2px solid black; 
-            font-size: 14px; 
-            z-index: 1000;
-        ">
-            Scale: <span id="scale-value">500m</span>
-        </div>
-    </div>
-    
-    <script>
-        const scaleBar = document.getElementById("scale-bar");
-        const scaleValue = document.getElementById("scale-value");
-    
-        function updateScaleBar(zoomLevel) {
-            // Adjust scale dynamically based on zoom
-            const scales = {15: "100m", 14: "200m", 13: "500m", 12: "1km", 11: "2km"};
-            scaleValue.textContent = scales[zoomLevel] || "Unknown scale";
-        }
-    
-        const map = document.querySelector("iframe");  // Pydeck iframe
-        if (map) {
-            map.contentWindow.addEventListener("wheel", (event) => {
-                const zoomLevel = Math.round(event.deltaY);
-                updateScaleBar(zoomLevel);
-            });
-        }
-    </script>
-    """, unsafe_allow_html=True)'''
     # Optionally display dataframes
     st.write("Download Detailed Analysis table. Click the download button just right top of the table:")
     st.dataframe(result_gdf)
