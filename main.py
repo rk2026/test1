@@ -242,4 +242,8 @@ if uploaded_file is not None:
         }
     </script>
     """, unsafe_allow_html=True)
+    # Optionally display dataframes
+    st.write("Download Detailed Analysis table. Click the download button just right top of the table:")
+    st.dataframe(result_gdf)
+    
 
