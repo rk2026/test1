@@ -206,6 +206,7 @@ if uploaded_file is not None:
     st.write("View the Mother Tree and Felling Tree Location")
     st.pydeck_chart(deck)
     
+    '''
     # Dynamic Scale Bar Using HTML/CSS and JavaScript
     st.markdown("""
     <div id="map-container" style="position: relative; width: 50%; height: 50px;">
@@ -241,7 +242,7 @@ if uploaded_file is not None:
             });
         }
     </script>
-    """, unsafe_allow_html=True)
+    """, unsafe_allow_html=True)'''
     # Optionally display dataframes
     st.write("Download Detailed Analysis table. Click the download button just right top of the table:")
     st.dataframe(result_gdf)
