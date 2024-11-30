@@ -222,7 +222,7 @@ if uploaded_file is not None:
         position: fixed;
         top: 10px;
         right: 10px;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(0, 255, 0, 0.8);
         padding: 5px;
         border: 1px solid black;
         font-size: 14px;
@@ -232,7 +232,7 @@ if uploaded_file is not None:
         position: fixed;
         bottom: 30px;
         left: 10px;
-        background-color: rgba(255, 255, 255, 0.8);
+        background-color: rgba(255, 0, 0, 0.8);
         padding: 5px;
         border: 1px solid black;
         font-size: 14px;
@@ -240,8 +240,8 @@ if uploaded_file is not None:
     }
     .scale-line {
         width: 100px;
-        height: 2px;
-        background-color: black;
+        height:6px;
+        background-color: Blue;
         margin-top: 5px;
     }
     </style>
@@ -258,51 +258,3 @@ if uploaded_file is not None:
     # Optionally display dataframes
     st.write("Download Detailed Analysis table. Click the download button just right top of the table:")
     st.dataframe(result_gdf)
-
-    '''# Additional calculations and Pydeck layer creation
-    joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
-    joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
-
-    # Define the ScatterplotLayer for points
-    point_layer = pdk.Layer(
-        "ScatterplotLayer",
-        result_gdf,
-        get_position=["LONGITUDE", "LATITUDE"],
-        get_radius=2,
-        get_color="color",
-        pickable=True,
-        auto_highlight=True,
-        tooltip={"html": "<b>Color:</b> {color}"}, 
-    )
-    
-    # Define the PolygonLayer for polygons
-    polygon_layer = pdk.Layer(
-        "PolygonLayer",
-        grid_gdf,
-        get_polygon="geometry",
-        get_fill_color=[155, 50, 50, 140],
-        get_line_color=[0, 0, 0, 200],
-        pickable=True,
-    )
-    
-    # Set the view state
-    view_state = pdk.ViewState(
-        latitude=result_gdf["LATITUDE"].mean(),
-        longitude=result_gdf["LONGITUDE"].mean(),
-        zoom=15,
-        pitch=0,
-    )
-    
-    # Combine the layers
-    deck = pdk.Deck(
-        layers=[point_layer, polygon_layer],
-        initial_view_state=view_state,
-    )
-    
-    # Display the map
-    st.write("View the Mother Tree and Felling Tree Location")
-    st.pydeck_chart(deck)
-    
-    # Optionally display dataframes
-    st.write("Download Detailed Analysis table. Click the download buttorn just right top of the table:")
-    st.dataframe(result_gdf)'''
