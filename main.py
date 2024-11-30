@@ -246,4 +246,5 @@ if uploaded_file is not None:
     st.write("Download Detailed Analysis table. Click the download button just right top of the table:")
     st.dataframe(result_gdf)
     
+    
 
