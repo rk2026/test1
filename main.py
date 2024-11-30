@@ -168,6 +168,7 @@ if uploaded_file is not None:
     )
     
     # Display the summary table
+    st.write('general_summary')
     st.dataframe(general_summary)
 
 
