@@ -153,6 +153,96 @@ if uploaded_file is not None:
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
+
+    # Ensure joined_gdf and result_gdf are in EPSG:4326
+    joined_gdf = joined_gdf.to_crs(epsg=4326)
+    result_gdf = result_gdf.to_crs(epsg=4326)
+    
+    # Add longitude and latitude columns for centroids
+    joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
+    joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
+    
+    # Define Pydeck layers
+    point_layer = pdk.Layer(
+        "ScatterplotLayer",
+        result_gdf,
+        get_position=["LONGITUDE", "LATITUDE"],
+        get_radius=2,
+        get_color="color",
+        pickable=True,
+        auto_highlight=True,
+        tooltip={
+            "html": """
+            <b>TID:</b> {TID}<br>
+            <b>Species:</b> {species}<br>
+            """,
+        },
+    )
+    
+    polygon_layer = pdk.Layer(
+        "PolygonLayer",
+        grid_gdf,
+        get_polygon="geometry",
+        get_fill_color=[155, 50, 50, 140],
+        get_line_color=[0, 0, 0, 200],
+        pickable=True,
+    )
+    
+    # View state for the map
+    view_state = pdk.ViewState(
+        latitude=result_gdf["LATITUDE"].mean(),
+        longitude=result_gdf["LONGITUDE"].mean(),
+        zoom=15,
+        pitch=0,
+    )
+    
+    # Combine layers into a Pydeck Deck
+    deck = pdk.Deck(
+        layers=[point_layer, polygon_layer],
+        initial_view_state=view_state,
+    )
+    
+    # Display the map
+    st.write("View the Mother Tree and Felling Tree Location")
+    st.pydeck_chart(deck)
+    
+    # Dynamic Scale Bar Using HTML/CSS and JavaScript
+    st.markdown("""
+    <div id="map-container" style="position: relative; width: 100%; height: 500px;">
+        <div id="scale-bar" style="
+            position: absolute; 
+            bottom: 10px; 
+            left: 10px; 
+            background: rgba(255, 255, 255, 0.8); 
+            padding: 5px; 
+            border: 1px solid black; 
+            font-size: 12px; 
+            z-index: 1000;
+        ">
+            Scale: <span id="scale-value">100m</span>
+        </div>
+    </div>
+    
+    <script>
+        const scaleBar = document.getElementById("scale-bar");
+        const scaleValue = document.getElementById("scale-value");
+    
+        function updateScaleBar(zoomLevel) {
+            // Adjust scale dynamically based on zoom
+            const scales = {15: "100m", 14: "200m", 13: "500m", 12: "1km", 11: "2km"};
+            scaleValue.textContent = scales[zoomLevel] || "Unknown scale";
+        }
+    
+        const map = document.querySelector("iframe");  // Pydeck iframe
+        if (map) {
+            map.contentWindow.addEventListener("wheel", (event) => {
+                const zoomLevel = Math.round(event.deltaY);
+                updateScaleBar(zoomLevel);
+            });
+        }
+    </script>
+    """, unsafe_allow_html=True)
+'''   
     
     # Define the ScatterplotLayer for points with hover tooltips
     point_layer = pdk.Layer(
@@ -257,4 +347,4 @@ if uploaded_file is not None:
     
     # Optionally display dataframes
     st.write("Download Detailed Analysis table. Click the download button just right top of the table:")
-    st.dataframe(result_gdf)
+    st.dataframe(result_gdf)'''
