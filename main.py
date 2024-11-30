@@ -148,6 +148,27 @@ if uploaded_file is not None:
     # If color is already in tuple format (e.g., (1, 0, 0, 1)), no need to split.
     result_gdf['color'] = result_gdf['color'].apply(lambda x: list(x))
     result_gdf['color'] = result_gdf['color'].apply(lambda x: [int(val * 255) for val in x])
+    #Summary Table
+    
+    # Assuming you have your GeoDataFrame loaded as 'result_gdf'
+    
+    # Define the columns to sum
+    sum_cols = ['gross_volume', 'net_volume', 'net_volum_cft', 'firewood_m3', 'firewood_chatta']
+    
+    # Create a multiselect widget for filtering by Local_Name
+    local_name_options = result_gdf['Local_Name'].unique().tolist()
+    selected_local_names = st.multiselect("Filter by Local Name (optional)", local_name_options, default=local_name_options)
+    
+    # Filter the GeoDataFrame based on selected local names (if any)
+    filtered_gdf = result_gdf[result_gdf['Local_Name'].isin(selected_local_names)] if selected_local_names else result_gdf
+    
+    # Group and sum the filtered GeoDataFrame
+    general_summary = (
+        filtered_gdf.groupby(['CF_name', 'CF_block', 'species', 'Local_Name'])[sum_cols].sum().reset_index()
+    )
+    
+    # Display the summary table
+    st.dataframe(general_summary)
 
 
     # Additional calculations and Pydeck layer creation
