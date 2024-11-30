@@ -208,18 +208,18 @@ if uploaded_file is not None:
     
     # Dynamic Scale Bar Using HTML/CSS and JavaScript
     st.markdown("""
-    <div id="map-container" style="position: relative; width: 100%; height: 500px;">
+    <div id="map-container" style="position: relative; width: 100%; height: 100px;">
         <div id="scale-bar" style="
             position: absolute; 
-            bottom: 10px; 
-            left: 10px; 
-            background: rgba(0, 0, 255, 0.8); 
+            bottom: 50px; 
+            left: 50px; 
+            background: rgba(0, 0, 255, 0.5); 
             padding: 15px; 
             border: 2px solid black; 
             font-size: 14px; 
             z-index: 1000;
         ">
-            Scale: <span id="scale-value">1000m</span>
+            Scale: <span id="scale-value">500m</span>
         </div>
     </div>
     
