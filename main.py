@@ -210,9 +210,9 @@ if uploaded_file is not None:
     st.markdown("""
     <div id="map-container" style="position: relative; width: 100%; height: 100px;">
         <div id="scale-bar" style="
-            position: absolute; 
-            bottom: 50px; 
-            left: 50px; 
+            position: relative; 
+            bottom: 60px; 
+            left: 60px; 
             background: rgba(0, 0, 255, 0.5); 
             padding: 15px; 
             border: 2px solid black; 
