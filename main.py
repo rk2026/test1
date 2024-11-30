@@ -153,6 +153,115 @@ if uploaded_file is not None:
     # Additional calculations and Pydeck layer creation
     joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
     joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
+    
+    # Define the ScatterplotLayer for points with hover tooltips
+    point_layer = pdk.Layer(
+        "ScatterplotLayer",
+        result_gdf,
+        get_position=["LONGITUDE", "LATITUDE"],
+        get_radius=2,
+        get_color="color",
+        pickable=True,
+        auto_highlight=True,
+        tooltip={
+            "html": """
+            <b>TID:</b> {TID}<br>
+            <b>Species:</b> {species}<br>
+            <b>Diameter (cm):</b> {dia_cm}<br>
+            <b>Height (m):</b> {height_m}<br>
+            <b>Class:</b> {class}<br>
+            <b>Local Name:</b> {Local_Name}<br>
+            <b>Stem Volume:</b> {stem_volume}<br>
+            <b>Branch Ratio:</b> {branch_ratio}<br>
+            <b>Branch Volume:</b> {branch_volume}<br>
+            <b>Tree Volume:</b> {tree_volume}<br>
+            <b>CM10 Diameter Ratio:</b> {cm10diaratio}<br>
+            <b>CM10 Top Volume:</b> {cm10topvolume}<br>
+            <b>Gross Volume:</b> {gross_volume}<br>
+            <b>Net Volume:</b> {net_volume}<br>
+            <b>Net Volume (CFT):</b> {net_volum_cft}<br>
+            <b>Firewood (m³):</b> {firewood_m3}<br>
+            <b>Firewood (Chattas):</b> {firewood_chatta}
+            """,
+            "style": {"color": "white", "background-color": "black"},
+        },
+    )
+    
+    # Define the PolygonLayer for polygons
+    polygon_layer = pdk.Layer(
+        "PolygonLayer",
+        grid_gdf,
+        get_polygon="geometry",
+        get_fill_color=[155, 50, 50, 140],
+        get_line_color=[0, 0, 0, 200],
+        pickable=True,
+    )
+    
+    # Set the view state
+    view_state = pdk.ViewState(
+        latitude=result_gdf["LATITUDE"].mean(),
+        longitude=result_gdf["LONGITUDE"].mean(),
+        zoom=15,
+        pitch=0,
+    )
+    
+    # Combine the layers
+    deck = pdk.Deck(
+        layers=[point_layer, polygon_layer],
+        initial_view_state=view_state,
+    )
+    
+    # Display the map
+    st.write("View the Mother Tree and Felling Tree Location")
+    st.pydeck_chart(deck)
+    
+    # Add a north arrow and scale bar using HTML/CSS
+    st.markdown("""
+    <style>
+    .north-arrow {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px;
+        border: 1px solid black;
+        font-size: 14px;
+        z-index: 1000;
+    }
+    .scale-bar {
+        position: fixed;
+        bottom: 30px;
+        left: 10px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 5px;
+        border: 1px solid black;
+        font-size: 14px;
+        z-index: 1000;
+    }
+    .scale-line {
+        width: 100px;
+        height: 2px;
+        background-color: black;
+        margin-top: 5px;
+    }
+    </style>
+    <div class="north-arrow">
+        ↑<br>North
+    </div>
+    <div class="scale-bar">
+        Scale<br>
+        <div class="scale-line"></div>
+        100m
+    </div>
+    """, unsafe_allow_html=True)
+    
+    # Optionally display dataframes
+    st.write("Download Detailed Analysis table. Click the download button just right top of the table:")
+    st.dataframe(result_gdf)
+
+    '''# Additional calculations and Pydeck layer creation
+    joined_gdf["LONGITUDE"] = joined_gdf.geometry.centroid.x
+    joined_gdf["LATITUDE"] = joined_gdf.geometry.centroid.y
 
     # Define the ScatterplotLayer for points
     point_layer = pdk.Layer(
@@ -196,4 +305,4 @@ if uploaded_file is not None:
     
     # Optionally display dataframes
     st.write("Download Detailed Analysis table. Click the download buttorn just right top of the table:")
-    st.dataframe(result_gdf)
+    st.dataframe(result_gdf)'''
