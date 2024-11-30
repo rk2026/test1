@@ -76,8 +76,8 @@ def add_calculated_columns(df):
 
     choices = [
         df['s'],  # For dia_cm < 10
-        ((result_gdf["dia_cm"] - 10) * result_gdf["bg"] + (40 - result_gdf["dia_cm"]) * result_gdf["m"]) / 30,
-        ((result_gdf["dia_cm"] - 40) * result_gdf["bg"] + (70 - result_gdf["dia_cm"]) * result_gdf["m"]) / 30,
+        ((df["dia_cm"] - 10) * df["bg"] + (40 - df["dia_cm"]) * df["m"]) / 30,
+        ((df["dia_cm"] - 40) * df["bg"] + (70 - df["dia_cm"]) * df["m"]) / 30,
         df['bg']   # For dia_cm >= 70
     ]
 
