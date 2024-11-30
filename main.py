@@ -63,9 +63,25 @@ layer = None  # Ensure layer is defined
 view_state = pdk.ViewState(latitude=0, longitude=0, zoom=2, pitch=0)  # Default view state
 
 # Function to calculate additional fields
-def add_calculated_columns(df):
+def add_calculated_columns(df):  
     df['stem_volume'] = np.exp(df['a'] + df['b'] * np.log(df['dia_cm']) + df['c'] * np.log(df['height_m'])) / 1000
-    df['branch_ratio'] = df['dia_cm'].apply(lambda x: 0.1 if x < 10 else 0.2)
+
+    # Branch ratio calculation based on dia_cm
+    conditions = [
+        df['dia_cm'] < 10,
+        (df['dia_cm'] >= 10) & (df['dia_cm'] < 40),
+        (df['dia_cm'] >= 40) & (df['dia_cm'] < 70),
+        df['dia_cm'] >= 70
+    ]
+
+    choices = [
+        df['s'],  # For dia_cm < 10
+        ((result_gdf["dia_cm"] - 10) * result_gdf["bg"] + (40 - result_gdf["dia_cm"]) * result_gdf["m"]) / 30,
+        ((result_gdf["dia_cm"] - 40) * result_gdf["bg"] + (70 - result_gdf["dia_cm"]) * result_gdf["m"]) / 30,
+        df['bg']   # For dia_cm >= 70
+    ]
+
+    df['branch_ratio'] = np.select(conditions, choices)
     df['branch_volume'] = df['stem_volume'] * df['branch_ratio']
     df['tree_volume'] = df['stem_volume'] + df['branch_volume']
     df['cm10diaratio'] = np.exp(df['a1'] + df['b1'] * np.log(df['dia_cm']))
@@ -75,6 +91,7 @@ def add_calculated_columns(df):
     df['net_volum_cft'] = df['net_volume'] * 35.3147
     df['firewood_m3'] = df['tree_volume'] - df['net_volume']
     df['firewood_chatta'] = df['firewood_m3'] * 0.105944
+
     return df
 
 # Function to create a square grid
