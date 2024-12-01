@@ -170,6 +170,14 @@ if uploaded_file is not None:
     # Display the summary table
     st.write('general_summary')
     st.dataframe(general_summary)
+    # Group and sum the filtered GeoDataFrame
+    mtft_summary = (
+        filtered_gdf.groupby(['rimark', 'species', 'Local_Name'])[sum_cols].sum().count('species').reset_index()
+    )
+    
+    # Display the summary table
+    st.write('Mother Tree and Felling Tree Summaru')
+    st.dataframe(general_summary)
 
 
     # Additional calculations and Pydeck layer creation
