@@ -91,6 +91,8 @@ def add_calculated_columns(df):
     df['net_volum_cft'] = df['net_volume'] * 35.3147
     df['firewood_m3'] = df['tree_volume'] - df['net_volume']
     df['firewood_chatta'] = df['firewood_m3'] * 0.105944
+    df['counted'] = 1
+
 
     return df
 
@@ -153,7 +155,7 @@ if uploaded_file is not None:
     # Assuming you have your GeoDataFrame loaded as 'result_gdf'
     
     # Define the columns to sum
-    sum_cols = ['gross_volume', 'net_volume', 'net_volum_cft', 'firewood_m3', 'firewood_chatta']
+    sum_cols = ['counted','gross_volume', 'net_volume', 'net_volum_cft', 'firewood_m3', 'firewood_chatta']
     
     # Create a multiselect widget for filtering by Local_Name
     local_name_options = result_gdf['Local_Name'].unique().tolist()
@@ -172,12 +174,12 @@ if uploaded_file is not None:
     st.dataframe(general_summary)
     # Group and sum the filtered GeoDataFrame
     mtft_summary = (
-        filtered_gdf.groupby(['remark', 'species', 'Local_Name'])[sum_cols].sum().count('species').reset_index()
+        filtered_gdf.groupby(['remark', 'species', 'Local_Name'])[sum_cols].sum().reset_index()
     )
     
     # Display the summary table
     st.write('Mother Tree and Felling Tree Summaru')
-    st.dataframe(general_summary)
+    st.dataframe(mtft_summary)
 
 
     # Additional calculations and Pydeck layer creation
