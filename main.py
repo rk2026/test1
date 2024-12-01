@@ -172,7 +172,7 @@ if uploaded_file is not None:
     st.dataframe(general_summary)
     # Group and sum the filtered GeoDataFrame
     mtft_summary = (
-        filtered_gdf.groupby(['rimark', 'species', 'Local_Name'])[sum_cols].sum().count('species').reset_index()
+        filtered_gdf.groupby(['remark', 'species', 'Local_Name'])[sum_cols].sum().count('species').reset_index()
     )
     
     # Display the summary table
