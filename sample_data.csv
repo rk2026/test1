@@ -1,0 +1,101 @@
+CF_name,CF_block,sample_Number,TID,species,LONGITUDE,LATITUDE,dia_cm,height_m,class
+Nawalpur,Keurini pakha,,1,Shorea robusta,85.3541391,27.7103062,60,25,2
+Nawalpur,Keurini pakha,,2,Shorea robusta,85.3561959,27.7086747,60,25,2
+Nawalpur,Keurini pakha,,3,Shorea robusta,85.3522515,27.7108716,60,25,2
+Nawalpur,Keurini pakha,,4,Shorea robusta,85.3534736,27.7090673,60,25,2
+Nawalpur,Keurini pakha,,5,Alnus nepalensis,85.3538313,27.7091368,104,21,2
+Nawalpur,Keurini pakha,,6,Anogeissus latifolia,85.3531329,27.7054253,97,27,1
+Nawalpur,Keurini pakha,,7,Bambax ceiba,85.3510125,27.7086372,95,30,1
+Nawalpur,Keurini pakha,,8,Cedrela toona,85.3530499,27.7076975,54,28,3
+Nawalpur,Keurini pakha,,9,Dalbergia sissoo,85.3564367,27.7084029,67,23,4
+Nawalpur,Keurini pakha,,10,Eugenia Jambolana,85.3538324,27.7090919,42,21,1
+Nawalpur,Keurini pakha,,11,Hymenodictyon excelsum,85.3501465,27.707315,61,15,2
+Nawalpur,Keurini pakha,,12,Lagerstroenia parviflora,85.3566107,27.7065477,108,16,2
+Nawalpur,Keurini pakha,,13,Michelia champaca,85.3576259,27.7079578,80,15,4
+Nawalpur,Keurini pakha,,14,Pinus roxburghii,85.3519618,27.707834,66,26,1
+Nawalpur,Keurini pakha,,15,Pinus wallichiana,85.3512281,27.7077806,56,28,1
+Nawalpur,Keurini pakha,,16,Quercus spp,85.3522836,27.7115758,30,26,3
+Nawalpur,Keurini pakha,,17,Schima wallichii,85.3565306,27.7090448,37,24,1
+Nawalpur,Keurini pakha,,18,Shorea robusta,85.3551952,27.706558,103,18,1
+Nawalpur,Keurini pakha,,19,Terminalia alata,85.3549863,27.7058551,109,26,3
+Nawalpur,Keurini pakha,,20,Trewia nudiflora,85.3524398,27.7055133,65,15,3
+Nawalpur,Keurini pakha,,21,Tsuga spp,85.3502417,27.7078784,92,16,1
+Nawalpur,Keurini pakha,,22,Terai spp,85.3531312,27.7052758,52,29,2
+Nawalpur,Keurini pakha,,23,Hill spp,85.3524961,27.7059877,64,30,3
+Nawalpur,Bhasme Data,,24,Abies spp,85.3531877,27.7086342,70,22,4
+Nawalpur,Bhasme Data,,25,Acacia catechu,85.3559475,27.7061758,82,15,3
+Nawalpur,Bhasme Data,,26,Adino cordifolia,85.352146,27.709543,66,28,2
+Nawalpur,Bhasme Data,,27,Albizia spp,85.3535702,27.7084004,37,16,3
+Nawalpur,Bhasme Data,,28,Alnus nepalensis,85.3510915,27.7069343,110,29,1
+Nawalpur,Bhasme Data,,29,Anogeissus latifolia,85.3548711,27.7069375,70,28,3
+Nawalpur,Bhasme Data,,30,Bambax ceiba,85.3529421,27.7096777,56,15,3
+Nawalpur,Bhasme Data,,31,Cedrela toona,85.3547781,27.7081136,40,28,4
+Nawalpur,Bhasme Data,,32,Dalbergia sissoo,85.3552478,27.7091851,54,25,3
+Nawalpur,Bhasme Data,,33,Eugenia Jambolana,85.3520718,27.7095823,64,21,1
+Nawalpur,Bhasme Data,,34,Hymenodictyon excelsum,85.3521369,27.7110372,68,28,4
+Nawalpur,Bhasme Data,,35,Lagerstroenia parviflora,85.3547727,27.7043336,33,15,3
+Nawalpur,Bhasme Data,,36,Michelia champaca,85.350939,27.708101,81,17,4
+Nawalpur,Bhasme Data,,37,Pinus roxburghii,85.3535887,27.71066,49,23,3
+Nawalpur,Bhasme Data,,38,Pinus wallichiana,85.3500213,27.7092229,75,24,2
+Nawalpur,Bhasme Data,,39,Quercus spp,85.3535164,27.7075585,61,30,1
+Nawalpur,Bhasme Data,,40,Schima wallichii,85.3550921,27.7041189,50,16,2
+Nawalpur,Bhasme Data,,41,Shorea robusta,85.3522719,27.7092107,101,26,2
+Nawalpur,Bhasme Data,,42,Terminalia alata,85.3543233,27.7064119,103,28,2
+Nawalpur,Bhasme Data,,43,Trewia nudiflora,85.3539609,27.7108011,63,25,3
+Nawalpur,Bhasme Data,,44,Tsuga spp,85.3517538,27.7084954,68,28,2
+Nawalpur,Bhasme Data,,45,Terai spp,85.3548708,27.7052344,63,18,3
+Nawalpur,Bhasme Data,,46,Hill spp,85.3560894,27.7072009,86,23,3
+Nawalpur,Bhasme Data,,47,Abies spp,85.355162,27.704403,50,29,1
+Nawalpur,Bhasme Data,,48,Acacia catechu,85.352787,27.7069977,53,15,1
+Nawalpur,Tilchaur,,49,Adino cordifolia,85.3569554,27.7051041,84,30,1
+Nawalpur,Tilchaur,,50,Albizia spp,85.3521514,27.7088728,39,26,3
+Nawalpur,Tilchaur,,51,Alnus nepalensis,85.3574129,27.7082729,110,27,4
+Nawalpur,Tilchaur,,52,Anogeissus latifolia,85.353384,27.7093409,66,18,4
+Nawalpur,Tilchaur,,53,Bambax ceiba,85.3545611,27.7066762,99,16,3
+Nawalpur,Tilchaur,,54,Cedrela toona,85.3552321,27.7075499,57,25,4
+Nawalpur,Tilchaur,,55,Dalbergia sissoo,85.3543298,27.709044,72,26,1
+Nawalpur,Tilchaur,,56,Eugenia Jambolana,85.3546901,27.7063073,68,30,1
+Nawalpur,Tilchaur,,57,Hymenodictyon excelsum,85.3543091,27.7096336,92,15,2
+Nawalpur,Tilchaur,,58,Lagerstroenia parviflora,85.3567763,27.7055572,110,16,2
+Nawalpur,Tilchaur,,59,Michelia champaca,85.3532315,27.7100456,76,21,2
+Nawalpur,Tilchaur,,60,Pinus roxburghii,85.3505856,27.7093412,107,24,4
+Nawalpur,Tilchaur,,61,Pinus wallichiana,85.3529666,27.7103839,30,23,4
+Nawalpur,Tilchaur,,62,Quercus spp,85.3575937,27.7073383,75,23,3
+Nawalpur,Tilchaur,,63,Schima wallichii,85.3528742,27.7102732,65,25,1
+Nawalpur,Tilchaur,,64,Shorea robusta,85.3537903,27.7054406,62,28,1
+Nawalpur,Tilchaur,,65,Terminalia alata,85.3533421,27.7090652,46,26,1
+Nawalpur,Tilchaur,,66,Trewia nudiflora,85.3525629,27.7089084,44,25,2
+Nawalpur,Tilchaur,,67,Tsuga spp,85.3535966,27.7065003,59,19,4
+Nawalpur,Tilchaur,,68,Terai spp,85.3534992,27.7074643,95,30,3
+Nawalpur,Tilchaur,,69,Hill spp,85.3538184,27.7089369,62,23,3
+Nawalpur,Tilchaur,,70,Abies spp,85.3554142,27.7075082,105,16,3
+Nawalpur,Tilchaur,,71,Acacia catechu,85.3500042,27.708082,35,28,4
+Nawalpur,Tilchaur,,72,Adino cordifolia,85.3518095,27.7066817,70,16,4
+Nawalpur,Tilchaur,,73,Albizia spp,85.3539443,27.7080693,44,15,1
+Nawalpur,Tilchaur,,74,Alnus nepalensis,85.3550524,27.708218,40,19,3
+Nawalpur,Tilchaur,,75,Anogeissus latifolia,85.357334,27.7087302,56,30,4
+Nawalpur,Tilchaur,,76,Bambax ceiba,85.3559732,27.7058284,49,19,3
+Nawalpur,Tilchaur,,77,Cedrela toona,85.3537961,27.7079546,50,18,4
+Nawalpur,Tilchaur,,78,Dalbergia sissoo,85.3532288,27.7060801,37,28,4
+Nawalpur,Tilchaur,,79,Eugenia Jambolana,85.3506984,27.7073194,41,23,1
+Nawalpur,Tilchaur,,80,Hymenodictyon excelsum,85.3566617,27.7078748,110,29,1
+Nawalpur,Tilchaur,,81,Lagerstroenia parviflora,85.3504884,27.7113924,61,30,3
+Nawalpur,Tilchaur,,82,Michelia champaca,85.3567894,27.7085959,80,19,2
+Nawalpur,Tilchaur,,83,Pinus roxburghii,85.3518954,27.7113783,102,18,3
+Nawalpur,Tilchaur,,84,Pinus wallichiana,85.3523205,27.7096994,90,16,4
+Nawalpur,Tilchaur,,85,Quercus spp,85.3517745,27.7108479,76,15,4
+Nawalpur,Tilchaur,,86,Schima wallichii,85.3497853,27.7091357,39,19,2
+Nawalpur,Tilchaur,,87,Shorea robusta,85.3562642,27.7081073,89,29,3
+Nawalpur,Tilchaur,,88,Terminalia alata,85.3525586,27.7106429,108,16,1
+Nawalpur,Tilchaur,,89,Trewia nudiflora,85.349828,27.7088778,69,27,2
+Nawalpur,Tilchaur,,90,Tsuga spp,85.3532559,27.7059141,55,29,3
+Nawalpur,Tilchaur,,91,Terai spp,85.3544972,27.7066097,75,23,2
+Nawalpur,Tilchaur,,92,Hill spp,85.3538917,27.7076001,37,23,4
+Nawalpur,Tilchaur,,93,Abies spp,85.3566381,27.70581,104,24,2
+Nawalpur,Tilchaur,,94,Acacia catechu,85.3551133,27.7071949,62,26,2
+Nawalpur,Tilchaur,,95,Adino cordifolia,85.3505038,27.7108424,64,17,1
+Nawalpur,Tilchaur,,96,Albizia spp,85.3547076,27.7075434,57,22,1
+Nawalpur,Tilchaur,,97,Alnus nepalensis,85.3530281,27.7088847,87,26,2
+Nawalpur,Tilchaur,,98,Anogeissus latifolia,85.3541615,27.7051357,38,17,4
+Nawalpur,Tilchaur,,99,Bambax ceiba,85.3531504,27.7064116,109,18,2
+Nawalpur,Tilchaur,,100,Cedrela toona,85.3527019,27.7105441,54,22,1
